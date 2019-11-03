@@ -1,1 +1,8 @@
-# Notece_v2
+# Notece
+
+## manual
+- このrepositoryをcloneする
+- ``cd client``
+- ``yarn install``
+- ``yarn start``
+※yarn入れてね　npmは使わないように。
