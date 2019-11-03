@@ -10,6 +10,7 @@
     "emotion": "^10.0.23",
     "react": "^16.11.0",
     "react-dom": "^16.11.0",
+    "react-konva": "^16.10.1-0",
     "react-scripts": "3.2.0",
     "react-style-reset": "^1.2.14",
     "styled-components": "^4.4.1",
