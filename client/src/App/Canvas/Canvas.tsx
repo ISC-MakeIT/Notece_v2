@@ -1,3 +1,4 @@
+
 import React, { FC } from 'react';
 // import DrawStage from "module";
 // import controlerStage from "module";
@@ -12,3 +13,4 @@ const Canvas: FC = () => {
 };
 
 export default Canvas;
+
