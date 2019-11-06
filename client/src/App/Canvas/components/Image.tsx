@@ -5,4 +5,4 @@ const Img: FC = () => {
     return <></>;
 };
 
-export default Circ;
+export default Img;
