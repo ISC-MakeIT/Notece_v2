@@ -1,6 +1,7 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 // import konva from 'konva';
-import { Stage, Layer, Rect } from 'react-konva';
+import { Stage, Layer } from 'react-konva';
+import Circle from './Circle';
 
 // anyで仮置
 interface DrawStageProps {
@@ -24,6 +25,8 @@ const DrawStage: FC<DrawStageProps> = ({
 
     // zoom outするためのイベント
 
+    const [selectedId, selectShape] = useState();
+
     return (
         <Stage width={window.innerWidth} height={window.innerHeight}>
             <Layer>
@@ -42,6 +45,24 @@ const DrawStage: FC<DrawStageProps> = ({
                 {lines.map((line, i) => {
                     return;
                 })} */}
+                {circles.map((circle: any, i: number) => {
+                    return (
+                        <Circle
+                            key={i}
+                            shapeProps={circle}
+                            isSelected={circle.id === selectedId}
+                            onSelect={() => {
+                                selectShape(circle.id);
+                            }}
+                            onChange={0}
+                            // onChange={newAttrs => {
+                            //     const rects = rectangles.slice();
+                            //     rects[i] = newAttrs;
+                            //     setRectangles(rects);
+                            // }}
+                        />
+                    );
+                })}
             </Layer>
         </Stage>
     );
