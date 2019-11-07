@@ -1,5 +1,5 @@
 import React, { FC, useState, useRef, createRef } from 'react';
-import { Stage, Layer, Image } from 'react-konva';
+import { Stage, Layer } from 'react-konva';
 import Circle from './components/Circle';
 import Rect from './components/Rect';
 // import controlerStage from './MenuButton';
@@ -108,9 +108,10 @@ const Canvas: FC = () => {
                         );
                     })}
                 </Layer>
-                <button onClick={addCircle}>Circle</button>
-                <button onClick={addRect}>Rect</button>
             </Stage>
+            <button onClick={addCircle}>Circle</button>
+            <button onClick={addRect}>Rect</button>
+            <button onClick={drawLine}>Rect</button>
         </>
     );
 };
