@@ -1,10 +1,9 @@
 import React, { FC, useState, useRef, createRef } from 'react';
-import DrawStage from './components/DrawStage';
 import { Stage, Layer, Image } from 'react-konva';
 import Circle from './components/Circle';
 import Rect from './components/Rect';
 // import controlerStage from './MenuButton';
-import { addLine } from './components/line';
+import addLine from './components/line';
 
 const Canvas: FC = () => {
     // [図形のデータ（大きさや位置）、更新用]
@@ -76,19 +75,19 @@ const Canvas: FC = () => {
                 <Layer ref={layerEl}>
                     {rect.map((rects: any, i: any) => {
                         return (
-                            // <Rect
-                            //     key={i}
-                            //     shapeProps={rects}
-                            //     isSelected={rects.id === selectedId}
-                            //     onSelect={() => {
-                            //         selectShape(rects.id);
-                            //     }}
-                            //     onChange={(newAttrs: any) => {
-                            //         const tmp = rect.slice();
-                            //         tmp[i] = newAttrs;
-                            //         setRect(tmp);
-                            //     }}
-                            // />
+                            <Rect
+                                key={i}
+                                shapeProps={rects}
+                                isSelected={rects.id === selectedId}
+                                onSelect={() => {
+                                    selectShape(rects.id);
+                                }}
+                                onChange={(newAttrs: any) => {
+                                    const tmp = rect.slice();
+                                    tmp[i] = newAttrs;
+                                    setRect(tmp);
+                                }}
+                            />
                         );
                     })}
                     {circle.map((circles: any, i: number) => {
