@@ -2,8 +2,8 @@ import Konva from 'konva';
 
 const addLin = (stage: any, layer: any, canDraw: boolean): void => {
     let isPaint: boolean = false;
-    let lastLine;
-    stage.on('mousedown touchstart', function(e) {
+    let lastLine: any;
+    stage.on('mousedown touchstart', function(e: Event) {
         if (!canDraw) {
             // pen以外が選択されたときはここに来るようにする
             return;

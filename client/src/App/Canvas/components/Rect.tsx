@@ -57,4 +57,4 @@ const Rectangle: FC<RectProps> = ({
         </React.Fragment>
     );
 };
-export default Circ;
+export default Rectangle;
