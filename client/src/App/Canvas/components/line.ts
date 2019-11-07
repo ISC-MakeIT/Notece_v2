@@ -1,6 +1,6 @@
 import Konva from 'konva';
 
-const addLin = (stage: any, layer: any, canDraw: boolean): void => {
+const addLine = (stage: any, layer: any, canDraw: boolean): void => {
     let isPaint: boolean = false;
     let lastLine: any;
     stage.on('mousedown touchstart', function(e: Event) {
