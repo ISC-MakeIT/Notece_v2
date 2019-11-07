@@ -1,26 +1,23 @@
 import Konva from 'konva';
 
-const addLin = (
-    stage: any,
-    layer: any,
-    mode: string,
-    canDraw: boolean
-): void => {
+const addLin = (stage: any, layer: any, canDraw: boolean): void => {
     let isPaint: boolean = false;
     let lastLine;
-    if (canDraw) {
-        stage.on('mousedown touchstart', function(e) {
-            isPaint = true;
-            let pos = stage.getPointerPosition();
-            lastLine = new Konva.Line({
-                stroke: 'red',
-                strokeWidth: 5,
-                globalCompositeOperation: 'source-over',
-                points: [pos.x, pos.y]
-            });
-            layer.add(lastLine);
+    stage.on('mousedown touchstart', function(e) {
+        if (!canDraw) {
+            // pen以外が選択されたときはここに来るようにする
+            return;
+        }
+        isPaint = true;
+        let pos = stage.getPointerPosition();
+        lastLine = new Konva.Line({
+            stroke: 'red',
+            strokeWidth: 5,
+            globalCompositeOperation: 'source-over',
+            points: [pos.x, pos.y]
         });
-    }
+        layer.add(lastLine);
+    });
     stage.on('mouseup touchend', function() {
         isPaint = false;
     });
