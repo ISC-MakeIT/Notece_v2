@@ -55,7 +55,7 @@ const Canvas: FC = () => {
     const addText = () => {};
     const addImage = () => {};
     const drawLine = () => {
-        addLine(stageEl.current.getStage(), layerEl.current, 'brush');
+        addLine(stageEl.current.getStage(), layerEl.current, true);
     };
 
     return (
