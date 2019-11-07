@@ -3,7 +3,6 @@ import DrawStage from './components/DrawStage';
 import { Stage, Layer, Image } from 'react-konva';
 import Circle from './components/Circle';
 import Rect from './components/Rect';
-import { addListener } from 'cluster';
 // import controlerStage from './MenuButton';
 import { addLine } from './components/line';
 
@@ -16,8 +15,10 @@ const Canvas: FC = () => {
     const [image, setImage] = useState(initArray);
     const [line, setLine] = useState(initArray);
 
-    const stageEl: any = createRef();
-    const layerEl: any = createRef();
+    const stageEl: React.RefObject<any> = createRef();
+    const layerEl: React.RefObject<any> = createRef();
+    // const stageEl: any = createRef();
+    // const layerEl: any = createRef();
 
     // undo,redo用のState
     const [shape, setShape] = useState(initArray);
@@ -55,7 +56,7 @@ const Canvas: FC = () => {
     const addText = () => {};
     const addImage = () => {};
     const drawLine = () => {
-        addLine(stageEl.current.getStage(), layerEl.current);
+        addLine(stageEl.current.getStage(), layerEl.current, 'brush');
     };
 
     return (
@@ -75,19 +76,19 @@ const Canvas: FC = () => {
                 <Layer ref={layerEl}>
                     {rect.map((rects: any, i: any) => {
                         return (
-                            <Rect
-                                key={i}
-                                shapeProps={rects}
-                                isSelected={rects.id === selectedId}
-                                onSelect={() => {
-                                    selectShape(rects.id);
-                                }}
-                                onChange={(newAttrs: any) => {
-                                    const tmp = rect.slice();
-                                    tmp[i] = newAttrs;
-                                    setRect(tmp);
-                                }}
-                            />
+                            // <Rect
+                            //     key={i}
+                            //     shapeProps={rects}
+                            //     isSelected={rects.id === selectedId}
+                            //     onSelect={() => {
+                            //         selectShape(rects.id);
+                            //     }}
+                            //     onChange={(newAttrs: any) => {
+                            //         const tmp = rect.slice();
+                            //         tmp[i] = newAttrs;
+                            //         setRect(tmp);
+                            //     }}
+                            // />
                         );
                     })}
                     {circle.map((circles: any, i: number) => {
@@ -108,9 +109,9 @@ const Canvas: FC = () => {
                         );
                     })}
                 </Layer>
+                <button onClick={addCircle}>Circle</button>
+                <button onClick={addRect}>Rect</button>
             </Stage>
-            <button onClick={addCircle}>Circle</button>
-            <button onClick={addRect}>Rect</button>
         </>
     );
 };
