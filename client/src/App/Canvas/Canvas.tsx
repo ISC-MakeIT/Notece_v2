@@ -4,6 +4,7 @@ import Circle from './components/Circle';
 import Rect from './components/Rect';
 // import controlerStage from './MenuButton';
 import addLine from './components/line';
+import delLine from './components/eraser';
 
 const Canvas: FC = () => {
     // [図形のデータ（大きさや位置）、更新用]
@@ -27,6 +28,7 @@ const Canvas: FC = () => {
 
     // 図形生成用関数（controlerStageの引数）
     const addRect = () => {
+        stageEl.current.getStage().off();
         const newRect: any = {
             x: 100,
             y: 100,
@@ -40,6 +42,7 @@ const Canvas: FC = () => {
     };
 
     const addCircle = () => {
+        stageEl.current.getStage().off();
         const newCircle: any = {
             x: 100,
             y: 100,
@@ -55,7 +58,12 @@ const Canvas: FC = () => {
     const addText = () => {};
     const addImage = () => {};
     const drawLine = () => {
-        addLine(stageEl.current.getStage(), layerEl.current, true);
+        stageEl.current.getStage().off();
+        addLine(stageEl.current.getStage(), layerEl.current);
+    };
+    const eraser = () => {
+        stageEl.current.getStage().off();
+        delLine(stageEl.current.getStage(), layerEl.current);
     };
 
     return (
@@ -111,7 +119,8 @@ const Canvas: FC = () => {
             </Stage>
             <button onClick={addCircle}>Circle</button>
             <button onClick={addRect}>Rect</button>
-            <button onClick={drawLine}>Rect</button>
+            <button onClick={drawLine}>draw</button>
+            <button onClick={eraser}>eraser</button>
         </>
     );
 };
