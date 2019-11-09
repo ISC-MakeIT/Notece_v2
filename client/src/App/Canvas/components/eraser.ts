@@ -1,17 +1,15 @@
 import Konva from 'konva';
-import { bool } from 'prop-types';
 
-const addLine = (stage: any, layer: any): void => {
+const delLine = (stage: any, layer: any): void => {
     let isPaint: boolean = false;
     let lastLine: any;
     stage.on('mousedown touchstart', function(e: Event) {
         isPaint = true;
         let pos = stage.getPointerPosition();
         lastLine = new Konva.Line({
-            stroke: 'red',
+            stroke: 'black',
             strokeWidth: 5,
-            globalCompositeOperation: 'source-over',
-            // globalCompositeOperation: ,
+            globalCompositeOperation: 'destination-out',
             points: [pos.x, pos.y]
         });
         layer.add(lastLine);
@@ -30,4 +28,4 @@ const addLine = (stage: any, layer: any): void => {
     });
 };
 
-export default addLine;
+export default delLine;
