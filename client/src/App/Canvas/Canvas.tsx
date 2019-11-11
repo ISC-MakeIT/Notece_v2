@@ -5,6 +5,7 @@ import { Stage, Layer } from 'react-konva';
 import Circle from './components/Circle';
 import Rect from './components/Rect';
 import addLine from './components/line';
+import addText from './components/text';
 // import controlerStage from './MenuButton';
 // import delLine from './components/eraser';
 
@@ -127,7 +128,9 @@ const Canvas: FC = () => {
         });
     };
 
-    const addText = () => {};
+    const addTextarea = () => {
+        addText(stageEl.current.getStage(), layerEl.current);
+    };
     const addImage = () => {};
     const drawLine = () => {
         stageEl.current.getStage().off();
@@ -172,6 +175,8 @@ const Canvas: FC = () => {
             {/* </FullScreenWrapper> */}
             <button onClick={addRect}>addRect</button>
             <button onClick={addCircle}>addCircle</button>
+            <button onClick={drawLine}>drawLine</button>
+            <button onClick={addTextarea}>addText</button>
             {/* 描写用Stage */}
             {/* <FullScreenWrapper> */}
             <Stage
