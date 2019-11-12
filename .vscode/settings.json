@@ -1,0 +1,8 @@
+{
+    "editor.insertSpaces": true,
+    "editor.tabSize": 4,
+    "files.eol": "\r\n",
+    "prettier.singleQuote": true,
+    "prettier.tabWidth": 4,
+    "editor.formatOnSave": true
+}
