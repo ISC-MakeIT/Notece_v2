@@ -5,6 +5,7 @@ import { Stage, Layer } from 'react-konva';
 import Circle from './components/Circle';
 import Rect from './components/Rect';
 import addLine from './components/line';
+import styled from 'styled-components';
 // import controlerStage from './MenuButton';
 // import delLine from './components/eraser';
 
@@ -38,8 +39,8 @@ const Canvas: FC = () => {
 
     // 図形生成用関数（controlerStageの引数）
     const addRect = () => {
-        const stage: any = ConStage.current.getStage();
-        const layer: any = ConLayer.current;
+        const stage: any = stageEl.current.getStage();
+        const layer: any = layerEl.current;
         stage.off();
 
         let StartPos: any;
@@ -81,8 +82,8 @@ const Canvas: FC = () => {
     };
 
     const addCircle = () => {
-        const stage = ConStage.current.getStage();
-        const layer = ConLayer.current;
+        const stage = stageEl.current.getStage();
+        const layer = layerEl.current;
         stage.off();
 
         let StartPos: any;
@@ -123,6 +124,7 @@ const Canvas: FC = () => {
             const tmp = circle.concat([Circle.attrs]);
             Circle.destroy();
             layer.batchDraw();
+            stage.off();
             setCircle(tmp);
         });
     };
@@ -142,94 +144,89 @@ const Canvas: FC = () => {
     return (
         <>
             {/* ボタン専用Stage */}
-            {/* <Stage
-                width={window.innerWidth}
-                height={window.innerHeight}
-                ref={BtnStage}
-            >
-                <Layer ref={BtnLayer}>
-                    <Controler
+            <FullScreenWrapper>
+                <Stage
+                    width={window.innerWidth}
+                    height={window.innerHeight}
+                    ref={BtnStage}
+                >
+                    <Layer ref={BtnLayer}>
+                        {/* <Controler
                         // addRect,addCircleに関しては大きさ指定できるようにする
                         addRect={addRect}
                         addCircle={addCircle}
                         addLine={addLine}
                         addText={addText}
                         addImg={addImage}
-                    />
-                </Layer>
-            </Stage> */}
-            {/* 大きさ指定用Stage */}
-            {/* <FullScreenWrapper> */}
-            <Stage
-                width={window.innerWidth}
-                height={window.innerHeight}
-                ref={ConStage}
-                x={0}
-                y={0}
-            >
-                <Layer ref={ConLayer}></Layer>
-            </Stage>
-            {/* </FullScreenWrapper> */}
+                    /> */}
+                    </Layer>
+                </Stage>
+            </FullScreenWrapper>
+            {/* 描写用Stage */}
+            <FullScreenWrapper>
+                <Stage
+                    width={window.innerWidth}
+                    height={window.innerHeight}
+                    ref={stageEl}
+                    onMouseDown={e => {
+                        // deselect when clicked on empty area
+                        const clickedOnEmpty = e.target === e.target.getStage();
+                        if (clickedOnEmpty) {
+                            selectShape(null);
+                        }
+                    }}
+                    x={0}
+                    y={0}
+                >
+                    <Layer ref={layerEl}>
+                        {rect.map((rects: any, i: number) => {
+                            return (
+                                <Rect
+                                    key={i}
+                                    shapeProps={rects}
+                                    isSelected={rects.id === selectedId}
+                                    onSelect={() => {
+                                        selectShape(rects.id);
+                                    }}
+                                    onChange={(newAttrs: any) => {
+                                        const tmp = rect.slice();
+                                        tmp[i] = newAttrs;
+                                        setRect(tmp);
+                                        console.log(rect);
+                                    }}
+                                />
+                            );
+                        })}
+                        {circle.map((circles: any, i: number) => {
+                            return (
+                                <Circle
+                                    key={i}
+                                    shapeProps={circles}
+                                    isSelected={circles.id === selectedId}
+                                    onSelect={() => {
+                                        selectShape(circles.id);
+                                    }}
+                                    onChange={(newAttrs: any) => {
+                                        const tmp = circle.slice();
+                                        tmp[i] = newAttrs;
+                                        setCircle(tmp);
+                                    }}
+                                />
+                            );
+                        })}
+                    </Layer>
+                </Stage>
+            </FullScreenWrapper>
             <button onClick={addRect}>addRect</button>
             <button onClick={addCircle}>addCircle</button>
-            {/* 描写用Stage */}
-            {/* <FullScreenWrapper> */}
-            <Stage
-                width={window.innerWidth}
-                height={window.innerHeight}
-                ref={stageEl}
-                onMouseDown={e => {
-                    // deselect when clicked on empty area
-                    const clickedOnEmpty = e.target === e.target.getStage();
-                    if (clickedOnEmpty) {
-                        selectShape(null);
-                    }
-                }}
-                x={0}
-                y={0}
-            >
-                <Layer ref={layerEl}>
-                    {rect.map((rects: any, i: number) => {
-                        return (
-                            <Rect
-                                key={i}
-                                shapeProps={rects}
-                                isSelected={rects.id === selectedId}
-                                onSelect={() => {
-                                    selectShape(rects.id);
-                                }}
-                                onChange={(newAttrs: any) => {
-                                    const tmp = rect.slice();
-                                    tmp[i] = newAttrs;
-                                    setRect(tmp);
-                                    console.log(rect);
-                                }}
-                            />
-                        );
-                    })}
-                    {circle.map((circles: any, i: number) => {
-                        return (
-                            <Circle
-                                key={i}
-                                shapeProps={circles}
-                                isSelected={circles.id === selectedId}
-                                onSelect={() => {
-                                    selectShape(circles.id);
-                                }}
-                                onChange={(newAttrs: any) => {
-                                    const tmp = circle.slice();
-                                    tmp[i] = newAttrs;
-                                    setCircle(tmp);
-                                }}
-                            />
-                        );
-                    })}
-                </Layer>
-            </Stage>
-            {/* </FullScreenWrapper> */}
         </>
     );
 };
 
-// const FullScreenWrapper = styled.div``;
+const FullScreenWrapper = styled.div`
+    position: absolute;
+    top: 100px;
+    right: 0;
+`;
+
 export default Canvas;
