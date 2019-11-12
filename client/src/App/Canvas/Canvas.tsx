@@ -6,6 +6,7 @@ import Circle from './components/Circle';
 import Rect from './components/Rect';
 import addLine from './components/line';
 import styled from 'styled-components';
+import addText from './components/text';
 // import controlerStage from './MenuButton';
 // import delLine from './components/eraser';
 
@@ -129,7 +130,10 @@ const Canvas: FC = () => {
         });
     };
 
-    const addText = () => {};
+    const addTextArea = () => {
+        stageEl.current.getStage().off();
+        addText(stageEl.current.getStage(), layerEl.current);
+    };
     const addImage = () => {};
     const drawLine = () => {
         stageEl.current.getStage().off();
@@ -144,14 +148,15 @@ const Canvas: FC = () => {
     return (
         <>
             {/* ボタン専用Stage */}
-            <FullScreenWrapper>
+
+            {/* <FullScreenWrapper>
                 <Stage
                     width={window.innerWidth}
                     height={window.innerHeight}
                     ref={BtnStage}
                 >
-                    <Layer ref={BtnLayer}>
-                        {/* <Controler
+                    <Layer ref={BtnLayer}> */}
+            {/* <Controler
                         // addRect,addCircleに関しては大きさ指定できるようにする
                         addRect={addRect}
                         addCircle={addCircle}
@@ -159,9 +164,10 @@ const Canvas: FC = () => {
                         addText={addText}
                         addImg={addImage}
                     /> */}
-                    </Layer>
+            {/* </Layer>
                 </Stage>
-            </FullScreenWrapper>
+            </FullScreenWrapper> */}
+
             {/* 描写用Stage */}
             <FullScreenWrapper>
                 <Stage
@@ -219,6 +225,8 @@ const Canvas: FC = () => {
             </FullScreenWrapper>
             <button onClick={addRect}>addRect</button>
             <button onClick={addCircle}>addCircle</button>
+            <button onClick={drawLine}>addCircle</button>
+            <button onClick={addTextArea}>addCircle</button>
         </>
     );
 };
