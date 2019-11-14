@@ -1,4 +1,5 @@
 import React from 'react';
+import styled from 'styled-components';
 import Tag from './Component/Tag'
 
 const SideNav: React.FC = () => {
@@ -22,10 +23,15 @@ const SideNav: React.FC = () => {
   ]
 
   return (
-    <nav id="SideNav">
+    <Navstyle id="SideNav">
       <Tag Navlist={Navlist} />
-    </nav>
+    </Navstyle>
   );
 }
+
+//↓styled-component
+
+const Navstyle = styled.nav;
+
 
 export default SideNav;
