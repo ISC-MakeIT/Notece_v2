@@ -31,7 +31,9 @@ const SideNav: React.FC = () => {
 
 //↓styled-component
 
-const Navstyle = styled.nav;
+const Navstyle = styled.nav`
+`;
+
 
 
 export default SideNav;
