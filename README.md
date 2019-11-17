@@ -7,6 +7,7 @@
 ## server
 - ``cd server``
 - ``composer install`` >> vendorのinstall
+- ``php artisan key:generate``
 - ``php artisan serve`` >> サーバーの起動
 ※php > composer > laravelの順にinstallしてね
 ***
