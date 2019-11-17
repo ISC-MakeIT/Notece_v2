@@ -1,1 +1,1 @@
-docker exec -it fd9a57f8d895 bash
+docker container exec -it mysql_host /bin/sh
