@@ -14,7 +14,8 @@
 - ``docker-compose -v`` dockerの存在を確認する
 - ``docker-compose up -d`` docker起動
 - ``docker-compose ps``&&``docker ps`` docker起動確認
-- ``sh init-mysql.sh`` 何も考えるな
+- ``sh init-mysql.sh`` 何も考えるな bashが開く
+- ``mysql -u root -p`` パスワードを要求されるのでパスワードを入れると幸せになる
 ***
 # Git
 ## master
