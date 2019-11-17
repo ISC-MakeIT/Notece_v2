@@ -11,6 +11,18 @@
 |
 */
 
+#use Symfony\Component\Routing\Route;
+
+use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+Auth::routes();
+Route::get('/notice/main', 'NotesController@index')->name('top');
+Route::post('notice/main', 'NotesController@search');
+Route::get('/notice/mynote', 'NotesController@myindex');
+Route::get('/notice/profile', 'ProfileController@index');
+Route::get('/notice/edit_profile', 'ProfileController@edit');
+Route::post('/notice/edit_profile', 'ProfileController@update');
+Route::resource('notes', 'NotesController', ['only' => ['create', 'store', 'show', 'edit', 'update','destroy']]);
+Route::resource('comments', 'CommentsController', ['only' => ['store']]);
