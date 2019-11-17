@@ -14,7 +14,7 @@
 # Git
 ## master
 - 作業禁止です。ここで作業しないでね
-## brunch
+## branch
 - brunch名はprefixに``add``等をつけて作業内容を書く >> 例:``fix/menu-design``
 ## pull
 - pushする前に必ず``git pull origin master``でpullすること
