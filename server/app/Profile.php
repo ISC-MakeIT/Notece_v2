@@ -11,6 +11,10 @@ class Profile extends Model
     protected $fillable = [
         'user_id',
     ];
-
+    
+    public function user()
+    {
+        return BelongsTo('App\User');
+    }
 
 }

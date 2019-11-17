@@ -18,6 +18,33 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <style>
+        .search_container{
+        box-sizing: border-box;
+        margin-bottom: 30px;
+        }
+        .search_container input[type="text"]{
+            background: #f4f4f4;
+            border: none;
+            height: 2.0em;
+            width: 300px;
+
+        }
+        .search_container input[type="text"]:focus {
+            outline: 0;
+        }
+        .search_container input[type="submit"]{
+            cursor: pointer;
+            border: none;
+            background: skyblue;
+            color: #fff;
+            outline : none;
+            height: 2.2em;
+        }
+        .search_container ::-webkit-input-placeholder {
+            color: #999999;
+        }
+    </style>
 </head>
 <body>
     <div id="app">
