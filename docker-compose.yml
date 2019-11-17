@@ -3,8 +3,8 @@ version: '3'
 services:
     # MySQL
     db:
-        image: mysql:latest
-        container_name: mysql_host
+        image: mysql:5.7
+        container_name: mysql
         environment:
             MYSQL_ROOT_PASSWORD: root
             MYSQL_DATABASE: test_database
@@ -21,11 +21,11 @@ services:
 
     # phpMyAdmin
     phpmyadmin:
-        container_name: test_phpmyadmin
+        container_name: phpmyadmin
         image: phpmyadmin/phpmyadmin
         environment:
             - PMA_ARBITRARY=1
-            - PMA_HOSTS=mysql_host
+            - PMA_HOSTS=mysql
             - PMA_USER=root
             - PMA_PASSWORD=root
         ports:
