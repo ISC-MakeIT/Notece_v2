@@ -10,8 +10,12 @@
 - ``php artisan key:generate``
 - ``php artisan serve`` >> サーバーの起動
 ※php > composer > laravelの順にinstallしてね
+## mysql/docker
+- ``docker-compose -v`` dockerの存在を確認する
+- ``docker-compose up -d`` docker起動
+- ``docker-compose ps``&&``docker ps`` docker起動確認
+- ``sh init-mysql.sh`` 何も考えるな
 ***
-
 # Git
 ## master
 - 作業禁止です。ここで作業しないでね
