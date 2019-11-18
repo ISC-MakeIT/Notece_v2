@@ -13,6 +13,7 @@
 
 #use Symfony\Component\Routing\Route;
 
+use App\Http\Controllers\NotesController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -25,5 +26,7 @@ Route::get('/notece/mynote', 'NotesController@myindex');
 Route::get('/notece/profile', 'ProfileController@index');
 Route::get('/notece/edit_profile', 'ProfileController@edit');
 Route::post('/notece/edit_profile', 'ProfileController@update');
-Route::resource('notes', 'NotesController', ['only' => ['create', 'store', 'show', 'edit', 'update', 'destroy']]);
+Route::resource('notece', 'NotesController', ['only' => ['create', 'store', 'update', 'edit', 'destroy']]);
+Route::get('/notece/note/{note}', 'NotesController@show')->name('notece.note');
+Route::get('/notece/note/edit/{note}', 'NotesController@edit')->name('notece.note.edit');
 Route::resource('comments', 'CommentsController', ['only' => ['store']]);

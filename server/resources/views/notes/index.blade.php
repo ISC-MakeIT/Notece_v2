@@ -3,13 +3,13 @@
 @section('content')
 
 <form method="post" action="{{ url('/notece/main') }}" class="search_container">
-    {{ csrf_field() }}
+    @csrf
     <input type="text" name="searchKey" size="25" placeholder="　キーワード検索">
     <input type="submit" name="search" value="Search">
 </form>
 
 <div class="mb-4">
-    <a href="{{ route('notes.create') }}" class="btn btn-primary">
+    <a href="{{ route('notece.create') }}" class="btn btn-primary">
         投稿を新規作成する
     </a>
     <a href="{{ url('/notece/mynote') }}" class="btn btn-primary">
@@ -33,7 +33,7 @@
                 {!! nl2br(e($note->note_body, 200)) !!}
             </p>
 
-            <a class="card-link" href="{{ route('notes.show', ['note' => $note]) }}">
+            <a class="card-link" href="{{ route('notece.note', ['note' => $note]) }}">
                 続きを読む
             </a>
         </div>

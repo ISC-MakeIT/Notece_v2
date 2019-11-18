@@ -19,14 +19,13 @@ class NotesController extends Controller
     }
 
     public function search(Request $request)
-    {  
+    {
         $searchKey = $request->get('searchKey');
         $query = Note::query();
         $query->where('note_title', 'LIKE', "%$searchKey%");
         $query->orderBy('created_at', 'desc');
         $notes = $query->get();
         return view('notes.index', ['notes' => $notes]);
-
     }
 
     public function myindex()
@@ -49,9 +48,9 @@ class NotesController extends Controller
             'note_title' => 'required|max:50',
             'note_body' => 'required|max:2000',
         ]);
-        $params = array_merge($params,['user_id' => session('userid')]); 
+        $params = array_merge($params, ['user_id' => session('userid')]);
         Note::create($params);
-    
+
         return redirect()->route('top');
     }
 
@@ -67,7 +66,7 @@ class NotesController extends Controller
     public function edit($note_id)
     {
         $note = Note::findOrFail($note_id);
-    
+
         return view('notes.edit', [
             'note' => $note,
         ]);
@@ -82,14 +81,14 @@ class NotesController extends Controller
 
         $note = Note::findOrFail($note_id);
         $note->fill($params)->save();
-    
-        return redirect()->route('notes.show', ['note' => $note]);
+
+        return redirect()->route('notece.note', ['note' => $note]);
     }
 
     public function destroy($note_id)
     {
         $note = Note::findOrFail($note_id);
-    
+
         \DB::transaction(function () use ($note) {
             $note->comments()->delete();
             $note->delete();
