@@ -19,4 +19,5 @@
     </div>
         </div>
     </div>
+    <a href="{{ url('notice/confirmation_profile') }}" class="btn btn-primary">退会する</a>
 @endsection
