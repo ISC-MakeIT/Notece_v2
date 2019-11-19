@@ -41,7 +41,6 @@ class ProfileController extends Controller
             'icon' => 'image|mimes:jpeg,png|nullable',
             'birthday' => 'nullable',
         ]);
-        $userid = session('userid');
 
         if (isset($params['icon'])) {
             $icon = $params['icon'];
@@ -49,6 +48,7 @@ class ProfileController extends Controller
             $params = array_merge($params, ['icon' => $icon]);
         }
 
+        $userid = session('userid');
         $params = array_merge($params, ['user_id' => $userid]);
 
         $profile = Profile::findOrFail($userid);
