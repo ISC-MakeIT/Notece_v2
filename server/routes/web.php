@@ -26,7 +26,7 @@ Route::get('/notece/mynote', 'NotesController@myindex');
 Route::get('/notece/profile', 'ProfileController@index');
 Route::get('/notece/edit_profile', 'ProfileController@edit');
 Route::post('/notece/edit_profile', 'ProfileController@update');
-Route::resource('notece', 'NotesController', ['only' => ['create', 'store', 'update', 'edit', 'destroy']]);
+Route::resource('notece', 'NotesController', ['only' => ['create', 'store', 'update', 'destroy']]);
 Route::get('/notece/note/{note}', 'NotesController@show')->name('notece.note');
 Route::get('/notece/note/edit/{note}', 'NotesController@edit')->name('notece.note.edit');
 Route::resource('comments', 'CommentsController', ['only' => ['store']]);

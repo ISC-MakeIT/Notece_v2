@@ -38,10 +38,17 @@ class ProfileController extends Controller
             'age' => 'integer|nullable',
             'comment' => 'max:200|nullable',
             'search_histroy' => 'nullable',
-            'icon' => 'image|nullable',
+            'icon' => 'image|mimes:jpeg,png|nullable',
             'birthday' => 'nullable',
         ]);
         $userid = session('userid');
+
+        if (isset($params['icon'])) {
+            $icon = $params['icon'];
+            $icon = base64_encode(file_get_contents($icon));
+            $params = array_merge($params, ['icon' => $icon]);
+        }
+
         $params = array_merge($params, ['user_id' => $userid]);
 
         $profile = Profile::findOrFail($userid);

@@ -4,6 +4,7 @@
 <form action="/notece/edit_profile" method="POST" enctype="multipart/form-data">
     @csrf
     <img src="data:image/png;base64,{{$profile->icon}}" alt='' id='icon' border='1'>
+
     <label for="name">名　　前：</label>
     <input type="text" id="name" name="name" value="{{ $profile->name }}"><br>
 
