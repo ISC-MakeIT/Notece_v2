@@ -6,7 +6,7 @@ const SingUp: FC = () => {
     return (
         <Center>
             <h1>新規作成</h1>
-            <Link to={'/sign_up_email'}>ここから登録</Link>
+            <Link to={'/sign_up_info'}>ここから登録</Link>
         </Center>
     );
 };
