@@ -16,6 +16,7 @@ const SignUpEmail: FC = () => {
         //     </TagNav>
         //     <BaseNote></BaseNote>
         // </BaseBackground>
+        <div></div>
     );
 };
 
