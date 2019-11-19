@@ -1,13 +1,17 @@
 import React, { FC } from 'react';
-import styled from 'styled-components';
+import styled, { ThemeConsumer } from 'styled-components';
 
-const Tags: FC = () => {
+interface TagsProps {
+    color: string;
+}
+
+const Tags: FC<TagsProps> = color => {
     return (
         <Li>
-            <Main>
+            <Main theme={{ color }}>
                 <Center>Text</Center>
             </Main>
-            <Side></Side>
+            <Side theme={{ color }}></Side>
         </Li>
     );
 };
@@ -21,17 +25,17 @@ const Li = styled.li`
 
 const Main = styled.div`
     align-items: center;
+    background: ${({ theme }) => theme.color}
     display: flex;
     justify-content: center;
     height: 100%;
-    background: rgba(256, 0, 0, 0.2);
     width: 91%;
 `;
 
 const Side = styled.div`
     height: 100%;
     width: 9%;
-    background: red;
+    background: ${({ theme }) => theme.color};
 `;
 
 const Center = styled.p`
