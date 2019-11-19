@@ -1,15 +1,17 @@
 import React, { FC } from 'react';
 import styled, { ThemeConsumer } from 'styled-components';
+import { StringLiteral } from '@babel/types';
 
 interface TagsProps {
     color: string;
+    text?: string;
 }
 
-const Tags: FC<TagsProps> = color => {
+const Tags: FC<TagsProps> = (color, text) => {
     return (
         <Li>
             <Main theme={{ color }}>
-                <Center>Text</Center>
+                <Center>{text}</Center>
             </Main>
             <Side theme={{ color }}></Side>
         </Li>
