@@ -1,23 +1,19 @@
 import React, { FC } from 'react';
 import styled from 'styled-components';
-import {} from 'styled-components-ts';
+import MenuBackground from '../../shared/MenuBackground';
+import MenuContent from '../../shared/MenuContent';
+import Content from '../../shared/Content';
 
 const TimeLine: FC = () => {
     return (
-        <Wrapper>
-            {/*
-             * 作品のタイトル
-             * 作成者(アイコン)
-             * 作者のコメント
-             * 日時
-             */}
-        </Wrapper>
+        <MenuBackground>
+            {/* SideNav */}
+            <MenuContent>
+                {/* TopNav */}
+                <Content ></Content>
+            </MenuContent>
+        </MenuBackground>
     );
 };
-
-const Wrapper = styled.div`
-    height: 100%;
-    width: 100%;
-`;
 
 export default TimeLine;
