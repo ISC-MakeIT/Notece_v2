@@ -16,6 +16,7 @@
             <span class="profile-name">{{$profile->name}}</span>
             <span class="profile-sex">性別：{{ $profile->sex ?: '未設定'}}</span>
             <span class="profile-age">年齢：{{ $profile->age ?: '未設定'}}</span>
+            <span class="profile-birthday">誕生日：{{ $profile->birthday ?: '未設定'}}</span>
             <span class="profile-comment">コメント：<br>{{ $profile->comment ?: '未設定' }}</span>
         </div>
     </div>

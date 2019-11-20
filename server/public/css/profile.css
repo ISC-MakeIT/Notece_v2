@@ -11,7 +11,7 @@
 .profile-card:before {
     width: 120%;
     height: 150px;
-    content: '';
+    content: "";
     transform: skew(15deg, 10deg);
     background: #70b7ff; /*斜め背景の色*/
     position: absolute;
@@ -58,7 +58,8 @@
 }
 
 .profile-sex,
-.profile-age {
+.profile-age,
+.profile-birthday {
     margin-bottom: 10px;
     color: #ccc;
     font-size: 25px;
