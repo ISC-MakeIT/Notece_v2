@@ -1,25 +1,21 @@
 version: '3'
 
 services:
-    # MySQL
     db:
         image: mysql:5.7
         container_name: mysql
         environment:
             MYSQL_ROOT_PASSWORD: root
-            MYSQL_DATABASE: test_database
+            MYSQL_DATABASE: Notece-database
             MYSQL_USER: docker
             MYSQL_PASSWORD: docker
             TZ: 'Asia/Tokyo'
         command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
         volumes:
-            - ./docker/db/data:/var/lib/mysql
-            - ./docker/db/my.cnf:/etc/mysql/conf.d/my.cnf
-            - ./docker/db/sql:/docker-entrypoint-initdb.d
+            - database:/var/lib/mysql
         ports:
             - 3306:3306
 
-    # phpMyAdmin
     phpmyadmin:
         container_name: phpmyadmin
         image: phpmyadmin/phpmyadmin
@@ -30,3 +26,6 @@ services:
             - PMA_PASSWORD=root
         ports:
             - 8080:80
+
+volumes:
+    database:
