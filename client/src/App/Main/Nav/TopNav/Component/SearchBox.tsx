@@ -1,14 +1,15 @@
 import React from 'react';
-//import { rename } from 'fs';
-import { render } from 'react-dom';
 import styled from 'styled-components';
+import SearchImg from '../Vector.png';
 
 const SearchBoxItem = () => {
     return (
         <>
             <form>
                 <SearchBox></SearchBox>
-                <button>{SearchButton}</button>
+                <SearchButton>
+                    <img src={SearchImg}></img>
+                </SearchButton>
             </form>
         </>
     );
@@ -16,20 +17,18 @@ const SearchBoxItem = () => {
 const SearchBox = styled.input.attrs({
     type: 'text'
 })`
-    display: flex;
     border-radius: 45px;
     background-size: contain;
     padding: 0.7em;
     width: 180px;
 `;
-const SearchButton = styled.button`
-    top: 1em;
-    height: 1.5em;
+const SearchButton = styled.p`
+    top: 2px;
     position: absolute;
-    left: 1em;
-    &:hover {
-        color: black;
+    left: 10px;
+    &:active {
+        margin: 3px auto 8px;
     }
 `;
 
-export default SearchBoxItem;
+export { SearchBoxItem };

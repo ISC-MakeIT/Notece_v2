@@ -1,24 +1,17 @@
 import React from 'react';
-import SearchBox from './SearchBox';
-import { render } from 'react-dom';
 import styled from 'styled-components';
 
-const TopNavItem = (
-    contents1: string,
-    contents2: string,
-    contents3: string
-) => {
+const TopNavItem = (prop: any) => {
     return (
-        <>
-            <a>{contents1}</a>
-            <a>{contents2}</a>
-            <a>{contents3}</a>
-        </>
+        <div>
+            {prop.titles.map((title: string, index: string) => {
+                return <TopNavLink href={prop.urls[index]}>{title}</TopNavLink>;
+            })}
+        </div>
     );
 };
 
-const a = styled.a`
-    display: flex;
+const TopNavLink = styled.a`
     border-left: solid 1px black;
     position: relative;
     display: block;
@@ -30,6 +23,9 @@ const a = styled.a`
     color: dimgrey;
     background: darkgray;
     transition: 0.4s;
+    &:hover {
+        color: black;
+    }
 `;
 
-export default TopNavItem;
+export { TopNavItem };
