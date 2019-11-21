@@ -1,6 +1,7 @@
 import React, { FC, useState } from 'react';
 import { withRouter, useLocation } from 'react-router';
 import { useHistory } from 'react-router-dom';
+import {} from 'axios';
 import styled from 'styled-components';
 import topic from '../img/topic.png';
 import Tags from '../../shared/Tags';
@@ -9,17 +10,15 @@ import BaseNote from '../../shared/BaseNote';
 import BaseBackground from '../../shared/BaseBackground';
 
 const SignUpPass: FC = () => {
-    // const [text, setText] = useState();
-    // let history = useHistory();
-    // const movePage = () => {
-    //     history.push({
-    //         pathname: '/sign_up_pass',
-    //         state: text
-    //     });
-    // };
+    const [pass, setPass] = useState('');
+    const request_data: Array<string> = [];
     const location = useLocation();
-    console.log(location.state);
+    request_data.push(location.state);
+    console.log(request_data);
 
+    const sendReq = () => {
+        request_data.push(pass);
+    };
     return (
         <BaseBackground>
             <TagNav>
@@ -29,13 +28,18 @@ const SignUpPass: FC = () => {
                 <Tags color={'orange'} />
             </TagNav>
             <BaseNote>
-                {/* <Topic src={topic} alt="メールアドレス" />
-                <H1>1.メールアドレスの登録</H1>
-                <P>登録する メールアドレスを入力</P>
+                <Topic src={topic} alt="パスワード" />
+                <H1>1.パスワードの登録</H1>
+                <P>登録する パスワードを入力</P>
                 <P> してください。</P>
-                <INPUT type="email" />
-                <Small> IDに使用します</Small>
-                <button onClick={movePage}>送信</button> */}
+                <INPUT
+                    type="password"
+                    onChange={e => {
+                        setPass(e.target.value);
+                    }}
+                />
+                {/* <Small> IDに使用します</Small> */}
+                <button onClick={sendReq}>送信</button>
             </BaseNote>
         </BaseBackground>
     );
