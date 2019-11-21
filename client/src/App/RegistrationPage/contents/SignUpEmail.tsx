@@ -1,6 +1,6 @@
-import React, { FC } from 'react';
-import {} from 'react-router';
-import {} from 'react-router-dom';
+import React, { FC, useState } from 'react';
+import { withRouter } from 'react-router';
+import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import topic from '../img/topic.png';
 import Tags from '../../shared/Tags';
@@ -8,7 +8,23 @@ import TagNav from '../../shared/TagNav';
 import BaseNote from '../../shared/BaseNote';
 import BaseBackground from '../../shared/BaseBackground';
 
-const SignUpInfo: FC = () => {
+const SignUpEmail: FC = () => {
+    const [text, setText] = useState('');
+    let history = useHistory();
+    const movePage = () => {
+        if (
+            text.match(
+                /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
+            ) == null
+        ) {
+            alert('メールアドレスが正しくありません');
+        } else {
+            history.push({
+                pathname: '/sign_up_pass',
+                state: text
+            });
+        }
+    };
     return (
         <BaseBackground>
             <TagNav>
@@ -22,8 +38,9 @@ const SignUpInfo: FC = () => {
                 <H1>1.メールアドレスの登録</H1>
                 <P>登録する メールアドレスを入力</P>
                 <P> してください。</P>
-                <INPUT type="email" />
+                <INPUT type="email" onChange={e => setText(e.target.value)} />
                 <Small> IDに使用します</Small>
+                <BUTTON onClick={movePage}>送信</BUTTON>
             </BaseNote>
         </BaseBackground>
     );
@@ -70,4 +87,14 @@ const Small = styled.p`
     text-align: right;
     margin: 1% auto;
 `;
-export default SignUpInfo;
+
+const BUTTON = styled.button`
+    align-item: center;
+    display: block;
+    margin: 1% auto;
+    text-align: center;
+    width: 20%;
+    height: 5%;
+`;
+
+export default withRouter(SignUpEmail);
