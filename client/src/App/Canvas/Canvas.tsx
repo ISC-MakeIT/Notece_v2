@@ -2,6 +2,7 @@ import React, { FC, useState, useRef, createRef, useEffect } from 'react';
 import Konva from 'konva';
 import { Stage, Layer } from 'react-konva';
 
+import Img from './components/Image';
 import Circle from './components/Circle';
 import Rect from './components/Rect';
 import addLine from './components/line';
@@ -37,7 +38,8 @@ const Canvas: FC = () => {
     const fileUploadEl: any = React.createRef();
 
     // 図形選択用State
-    const [selectedId, selectShape] = React.useState(null);
+    const initSelect: any = null;
+    const [selectedId, selectShape] = React.useState(initSelect);
 
     // 図形生成用関数（controlerStageの引数）
     const addRect = () => {
@@ -177,6 +179,7 @@ const Canvas: FC = () => {
             reader.readAsDataURL(file);
         }
     };
+
     const drawLine = () => {
         stageEl.current.getStage().off();
         addLine(stageEl.current.getStage(), layerEl.current);
@@ -299,8 +302,7 @@ const Canvas: FC = () => {
                                         // undo/redo用の変数を更新
                                         tmp[i] = newAttrs;
                                         setRect(tmp);
-                                        // json.push(
-                                        //     stageEl.current.getStage().toJSON()
+                                        // json.push(stageEl.current.getStage().toJSON()
                                         // );
                                     }}
                                 />
@@ -327,10 +329,26 @@ const Canvas: FC = () => {
                                         setLog(logTmp);
                                         tmp[i] = newAttrs;
                                         setCircle(tmp);
-                                        // json.push(
-                                        //     stageEl.current.getStage().toJSON()
-                                        // );
-                                        console.log(circle);
+                                        console.log(
+                                            stageEl.current.getStage().toJSON()
+                                        );
+                                    }}
+                                />
+                            );
+                        })}
+                        {images.map((image: any, i: number) => {
+                            return (
+                                <Img
+                                    key={i}
+                                    imageUrl={image.content}
+                                    shapeProps={images}
+                                    isSelected={image.id === selectedId}
+                                    onSelect={() => {
+                                        selectShape(image.id);
+                                    }}
+                                    onChange={(newAttrs: any) => {
+                                        const imgs = images.slice();
+                                        imgs[i] = newAttrs;
                                     }}
                                 />
                             );
@@ -340,7 +358,12 @@ const Canvas: FC = () => {
             </FullScreenWrapper>
             <button onClick={addRect}>addRect</button>
             <button onClick={addCircle}>addCircle</button>
-            <button onClick={drawImage}>drawImage</button>
+            <input
+                // style={{ display: 'none' }}
+                type="file"
+                ref={fileUploadEl}
+                onChange={fileChange}
+            />
             <button onClick={redo}>redo</button>
             <button onClick={undo}>undo</button>
         </>
