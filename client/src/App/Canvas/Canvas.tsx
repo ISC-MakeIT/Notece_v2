@@ -7,6 +7,8 @@ import Rect from './components/Rect';
 import addLine from './components/line';
 import styled from 'styled-components';
 import addText from './components/text';
+
+const uuidv1 = require('uuid/v1');
 // import controlerStage from './MenuButton';
 // import delLine from './components/eraser';
 
@@ -16,7 +18,8 @@ const Canvas: FC = () => {
     const [rect, setRect] = useState(initArray);
     const [circle, setCircle] = useState(initArray);
     const [text, setText] = useState(initArray);
-    const [image, setImage] = useState(initArray);
+    const [images, setImages] = useState(initArray);
+    const [, updateState] = React.useState();
     const [line, setLine] = useState(initArray);
     const [log, setLog] = useState(initArray);
     const [logCount, setLogCount] = useState(0);
@@ -31,10 +34,7 @@ const Canvas: FC = () => {
     const stageEl: React.RefObject<any> = createRef();
     const layerEl: React.RefObject<any> = createRef();
 
-    // undo,redo用のState
-    useEffect(() => {
-        // undo/redoの処理
-    }, [rect, circle, text, image, line]);
+    const fileUploadEl: any = React.createRef();
 
     // 図形選択用State
     const [selectedId, selectShape] = React.useState(null);
@@ -151,7 +151,32 @@ const Canvas: FC = () => {
         stageEl.current.getStage().off();
         addText(stageEl.current.getStage(), layerEl.current);
     };
-    const addImage = () => {};
+
+    const drawImage = () => {
+        fileUploadEl.current.click();
+    };
+    const forceUpdate = React.useCallback(() => updateState({}), []);
+    const fileChange = (ev: any) => {
+        let file = ev.target.files[0];
+        let reader = new FileReader();
+        reader.addEventListener(
+            'load',
+            () => {
+                const id = uuidv1();
+                images.push({
+                    content: reader.result,
+                    id
+                });
+                setImages(images);
+                fileUploadEl.current.value = null;
+                forceUpdate();
+            },
+            false
+        );
+        if (file) {
+            reader.readAsDataURL(file);
+        }
+    };
     const drawLine = () => {
         stageEl.current.getStage().off();
         addLine(stageEl.current.getStage(), layerEl.current);
@@ -315,7 +340,7 @@ const Canvas: FC = () => {
             </FullScreenWrapper>
             <button onClick={addRect}>addRect</button>
             <button onClick={addCircle}>addCircle</button>
-            <button onClick={drawLine}>addCircle</button>
+            <button onClick={drawImage}>drawImage</button>
             <button onClick={redo}>redo</button>
             <button onClick={undo}>undo</button>
         </>
