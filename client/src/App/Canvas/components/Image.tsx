@@ -22,7 +22,6 @@ const Img: FC<ImgProps> = ({
     const [image] = useImage(imageUrl);
     React.useEffect(() => {
         if (isSelected) {
-            // we need to attach transformer manually
             trRef.current.setNode(shapeRef.current);
             trRef.current.getLayer().batchDraw();
         }
