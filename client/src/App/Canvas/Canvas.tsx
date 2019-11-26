@@ -23,7 +23,7 @@ const Canvas: FC = () => {
     const [, updateState] = React.useState();
     const [line, setLine] = useState(initArray);
     const [log, setLog] = useState(initArray);
-    const [logCount, setLogCount] = useState(0);
+    const [logCount, setLogCount] = useState(-1);
 
     // Stage.レイヤーを選択するための値
     const BtnStage: React.RefObject<any> = createRef();
@@ -82,13 +82,20 @@ const Canvas: FC = () => {
             layer.batchDraw();
             stage.off();
             setRect(tmp);
-            const LOG: any = {
+            const START_LOG: any = {
                 cmd: 'CREATE',
                 data: null,
                 type: 'rect',
-                index: rect.length
+                index: circle.length
             };
-            const logTmp = log.concat(LOG);
+            let logTmp = log.concat(START_LOG);
+            const LOG: any = {
+                cmd: 'CHANGE',
+                data: Rect.attrs,
+                type: 'rect',
+                index: circle.length
+            };
+            logTmp = logTmp.concat(LOG);
             setLog(logTmp);
         });
     };
@@ -138,14 +145,22 @@ const Canvas: FC = () => {
             layer.batchDraw();
             stage.off();
             setCircle(tmp);
-            const LOG: any = {
+            const START_LOG: any = {
                 cmd: 'CREATE',
                 data: null,
                 type: 'circle',
-                index: rect.length
+                index: circle.length
             };
-            const logTmp = log.concat(LOG);
+            let logTmp = log.concat(START_LOG);
+            const LOG: any = {
+                cmd: 'CHANGE',
+                data: Circle.attrs,
+                type: 'circle',
+                index: circle.length
+            };
+            logTmp = logTmp.concat(LOG);
             setLog(logTmp);
+            console.log(log);
         });
     };
 
@@ -186,58 +201,62 @@ const Canvas: FC = () => {
     };
 
     const redo = () => {
-        console.log('logCount:', logCount);
-        const empty: any = [];
-        const Log = empty.concat(log);
-        const target = Log.splice(logCount - 1, 1);
-        switch (target[0].type) {
-            case 'rect':
-                const RECT = rect.slice();
-                if (target[0].cmd === 'CREATE') {
-                    RECT.splice(target[0].index, 1);
-                } else {
-                    RECT[target[0].index] = target[0].data;
-                }
-                setRect(RECT);
-                break;
-            case 'circle':
-                const CIRCLE = rect.slice();
-                if (target[0].cmd === 'CREATE') {
-                    CIRCLE.splice(target[0].index, 1);
-                } else {
-                    CIRCLE[target[0].index] = target[0].data;
-                }
-                setCircle(CIRCLE);
-                break;
+        if (Math.abs(logCount) < log.length) {
+            console.log('logCount:', logCount);
+            const empty: any = [];
+            const Log = empty.concat(log);
+            const target = Log.splice(logCount - 1, 1);
+            switch (target[0].type) {
+                case 'rect':
+                    const RECT = rect.slice();
+                    if (target[0].cmd === 'CREATE') {
+                        RECT.splice(target[0].index, 1);
+                    } else {
+                        RECT[target[0].index] = target[0].data;
+                    }
+                    setRect(RECT);
+                    break;
+                case 'circle':
+                    const CIRCLE = rect.slice();
+                    if (target[0].cmd === 'CREATE') {
+                        CIRCLE.splice(target[0].index, 1);
+                    } else {
+                        CIRCLE[target[0].index] = target[0].data;
+                    }
+                    setCircle(CIRCLE);
+                    break;
+            }
+            setLogCount(now => now - 1);
         }
-        setLogCount(now => now - 1);
     };
 
     const undo = () => {
-        const empty: any = [];
-        const Log = empty.concat(log);
-        const target = Log.splice(logCount + 1, 1);
-        switch (target[0].type) {
-            case 'rect':
-                const RECT = rect.slice();
-                if (target[0].cmd === 'CREATE') {
-                    RECT.splice(target[0].index, 1);
-                } else {
-                    RECT[target[0].index] = target[0].data;
-                }
-                setRect(RECT);
-                break;
-            case 'circle':
-                const CIRCLE = rect.slice();
-                if (target[0].cmd === 'CREATE') {
-                    CIRCLE.splice(target[0].index, 1);
-                } else {
-                    CIRCLE[target[0].index] = target[0].data;
-                }
-                setCircle(CIRCLE);
-                break;
+        if (logCount <= -1) {
+            const empty: any = [];
+            const Log = empty.concat(log);
+            const target = Log.splice(logCount + 1, 1);
+            switch (target[0].type) {
+                case 'rect':
+                    const RECT = rect.slice();
+                    if (target[0].cmd === 'CREATE') {
+                        RECT.splice(target[0].index, 1);
+                    } else {
+                        RECT[target[0].index] = target[0].data;
+                    }
+                    setRect(RECT);
+                    break;
+                case 'circle':
+                    const CIRCLE = rect.slice();
+                    if (target[0].cmd === 'CREATE') {
+                        CIRCLE.splice(target[0].index, 1);
+                    } else {
+                        CIRCLE[target[0].index] = target[0].data;
+                    }
+                    setCircle(CIRCLE);
+                    break;
+            }
+            setLogCount(now => now + 1);
         }
-        setLogCount(now => now + 1);
     };
 
     return (
@@ -293,7 +312,7 @@ const Canvas: FC = () => {
                                         const tmp = rect.slice();
                                         const LOG: any = {
                                             cmd: 'CHANGE',
-                                            data: tmp[i],
+                                            data: newAttrs,
                                             type: 'rect',
                                             index: i
                                         };
@@ -321,7 +340,7 @@ const Canvas: FC = () => {
                                         const tmp = circle.slice();
                                         const LOG: any = {
                                             cmd: 'CHANGE',
-                                            data: tmp[i],
+                                            data: newAttrs,
                                             type: 'circle',
                                             index: i
                                         };
@@ -375,3 +394,5 @@ const FullScreenWrapper = styled.div`
     top: 100px;
     right: 0;
 `;
+
+export default Canvas;
