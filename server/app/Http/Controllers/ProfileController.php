@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Profile;
-
+use App\User;
+use App\Note;
 
 class ProfileController extends Controller
 {
@@ -55,5 +56,16 @@ class ProfileController extends Controller
         $profile->fill($params)->save();
 
         return view('notes.profile', ['profile' => $profile]);
+    }
+
+    public function destroy(Request $request) {
+        $param = $request->session()->get('userid');
+        $notes = Note::where('user_id',$param);
+        $notes->delete();
+        $profile = Profile::where('user_id',$param);
+        $profile->delete();
+        $user = User::find($param);
+        $user->delete();
+        return redirect()->route('top');
     }
 }

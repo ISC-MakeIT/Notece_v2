@@ -1,1 +1,0 @@
-docker container exec -it mysql_host /bin/sh

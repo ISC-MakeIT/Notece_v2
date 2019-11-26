@@ -19,6 +19,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+
 Auth::routes();
 Route::get('/notece/main', 'NotesController@index')->name('top');
 Route::post('/notece/main', 'NotesController@search');
@@ -30,3 +32,5 @@ Route::resource('notece', 'NotesController', ['only' => ['create', 'store', 'upd
 Route::get('/notece/note/{note}', 'NotesController@show')->name('notece.note');
 Route::get('/notece/note/edit/{note}', 'NotesController@edit')->name('notece.note.edit');
 Route::resource('comments', 'CommentsController', ['only' => ['store']]);
+Route::view('/notece/confirmation_profile', 'notes.confirmation_profile');
+Route::get('/notece/destroy_profile', 'ProfileController@destroy');

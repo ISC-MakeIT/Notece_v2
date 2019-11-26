@@ -2,21 +2,28 @@ import React, { FC, useState, useRef, createRef, useEffect } from 'react';
 import Konva from 'konva';
 import { Stage, Layer } from 'react-konva';
 
+import Img from './components/Image';
 import Circle from './components/Circle';
 import Rect from './components/Rect';
 import addLine from './components/line';
 import styled from 'styled-components';
+import addText from './components/text';
+
+const uuidv1 = require('uuid/v1');
 // import controlerStage from './MenuButton';
 // import delLine from './components/eraser';
 
 const Canvas: FC = () => {
     // [図形のデータ（大きさや位置）、更新用]
-    const initArray: Array<JSON> = [];
+    const initArray: Array<any> = [];
     const [rect, setRect] = useState(initArray);
     const [circle, setCircle] = useState(initArray);
     const [text, setText] = useState(initArray);
-    const [image, setImage] = useState(initArray);
+    const [images, setImages] = useState(initArray);
+    const [, updateState] = React.useState();
     const [line, setLine] = useState(initArray);
+    const [log, setLog] = useState(initArray);
+    const [logCount, setLogCount] = useState(-1);
 
     // Stage.レイヤーを選択するための値
     const BtnStage: React.RefObject<any> = createRef();
@@ -28,14 +35,11 @@ const Canvas: FC = () => {
     const stageEl: React.RefObject<any> = createRef();
     const layerEl: React.RefObject<any> = createRef();
 
-    // undo,redo用のState
-    const [shape, setShape] = useState(initArray);
-    useEffect(() => {
-        // undo/redoの処理
-    }, [rect, circle, text, image, line]);
+    const fileUploadEl: any = React.createRef();
 
     // 図形選択用State
-    const [selectedId, selectShape] = React.useState(null);
+    const initSelect: any = null;
+    const [selectedId, selectShape] = React.useState(initSelect);
 
     // 図形生成用関数（controlerStageの引数）
     const addRect = () => {
@@ -78,6 +82,21 @@ const Canvas: FC = () => {
             layer.batchDraw();
             stage.off();
             setRect(tmp);
+            const START_LOG: any = {
+                cmd: 'CREATE',
+                data: null,
+                type: 'rect',
+                index: circle.length
+            };
+            let logTmp = log.concat(START_LOG);
+            const LOG: any = {
+                cmd: 'CHANGE',
+                data: Rect.attrs,
+                type: 'rect',
+                index: circle.length
+            };
+            logTmp = logTmp.concat(LOG);
+            setLog(logTmp);
         });
     };
 
@@ -126,32 +145,132 @@ const Canvas: FC = () => {
             layer.batchDraw();
             stage.off();
             setCircle(tmp);
+            const START_LOG: any = {
+                cmd: 'CREATE',
+                data: null,
+                type: 'circle',
+                index: circle.length
+            };
+            let logTmp = log.concat(START_LOG);
+            const LOG: any = {
+                cmd: 'CHANGE',
+                data: Circle.attrs,
+                type: 'circle',
+                index: circle.length
+            };
+            logTmp = logTmp.concat(LOG);
+            setLog(logTmp);
+            console.log(log);
         });
     };
 
-    const addText = () => {};
-    const addImage = () => {};
+    const addTextArea = () => {
+        stageEl.current.getStage().off();
+        addText(stageEl.current.getStage(), layerEl.current);
+    };
+
+    const drawImage = () => {
+        fileUploadEl.current.click();
+    };
+    const forceUpdate = React.useCallback(() => updateState({}), []);
+    const fileChange = (ev: any) => {
+        let file = ev.target.files[0];
+        let reader = new FileReader();
+        reader.addEventListener(
+            'load',
+            () => {
+                const id = uuidv1();
+                images.push({
+                    content: reader.result,
+                    id
+                });
+                setImages(images);
+                fileUploadEl.current.value = null;
+                forceUpdate();
+            },
+            false
+        );
+        if (file) {
+            reader.readAsDataURL(file);
+        }
+    };
+
     const drawLine = () => {
         stageEl.current.getStage().off();
         addLine(stageEl.current.getStage(), layerEl.current);
     };
 
-    // const eraser = () => {
-    //     stageEl.current.getStage().off();
-    //     delLine(stageEl.current.getStage(), layerEl.current);
-    // };
+    const redo = () => {
+        if (Math.abs(logCount) < log.length) {
+            console.log('logCount:', logCount);
+            const empty: any = [];
+            const Log = empty.concat(log);
+            const target = Log.splice(logCount - 1, 1);
+            switch (target[0].type) {
+                case 'rect':
+                    const RECT = rect.slice();
+                    if (target[0].cmd === 'CREATE') {
+                        RECT.splice(target[0].index, 1);
+                    } else {
+                        RECT[target[0].index] = target[0].data;
+                    }
+                    setRect(RECT);
+                    break;
+                case 'circle':
+                    const CIRCLE = rect.slice();
+                    if (target[0].cmd === 'CREATE') {
+                        CIRCLE.splice(target[0].index, 1);
+                    } else {
+                        CIRCLE[target[0].index] = target[0].data;
+                    }
+                    setCircle(CIRCLE);
+                    break;
+            }
+            setLogCount(now => now - 1);
+        }
+    };
+
+    const undo = () => {
+        if (logCount <= -1) {
+            const empty: any = [];
+            const Log = empty.concat(log);
+            const target = Log.splice(logCount + 1, 1);
+            switch (target[0].type) {
+                case 'rect':
+                    const RECT = rect.slice();
+                    if (target[0].cmd === 'CREATE') {
+                        RECT.splice(target[0].index, 1);
+                    } else {
+                        RECT[target[0].index] = target[0].data;
+                    }
+                    setRect(RECT);
+                    break;
+                case 'circle':
+                    const CIRCLE = rect.slice();
+                    if (target[0].cmd === 'CREATE') {
+                        CIRCLE.splice(target[0].index, 1);
+                    } else {
+                        CIRCLE[target[0].index] = target[0].data;
+                    }
+                    setCircle(CIRCLE);
+                    break;
+            }
+            setLogCount(now => now + 1);
+        }
+    };
 
     return (
         <>
             {/* ボタン専用Stage */}
-            <FullScreenWrapper>
+
+            {/* <FullScreenWrapper>
                 <Stage
                     width={window.innerWidth}
                     height={window.innerHeight}
                     ref={BtnStage}
                 >
-                    <Layer ref={BtnLayer}>
-                        {/* <Controler
+                    <Layer ref={BtnLayer}> */}
+            {/* <Controler
                         // addRect,addCircleに関しては大きさ指定できるようにする
                         addRect={addRect}
                         addCircle={addCircle}
@@ -159,9 +278,10 @@ const Canvas: FC = () => {
                         addText={addText}
                         addImg={addImage}
                     /> */}
-                    </Layer>
+            {/* </Layer>
                 </Stage>
-            </FullScreenWrapper>
+            </FullScreenWrapper> */}
+
             {/* 描写用Stage */}
             <FullScreenWrapper>
                 <Stage
@@ -190,9 +310,19 @@ const Canvas: FC = () => {
                                     }}
                                     onChange={(newAttrs: any) => {
                                         const tmp = rect.slice();
+                                        const LOG: any = {
+                                            cmd: 'CHANGE',
+                                            data: newAttrs,
+                                            type: 'rect',
+                                            index: i
+                                        };
+                                        const logTmp = log.concat(LOG);
+                                        setLog(logTmp);
+                                        // undo/redo用の変数を更新
                                         tmp[i] = newAttrs;
                                         setRect(tmp);
-                                        console.log(rect);
+                                        // json.push(stageEl.current.getStage().toJSON()
+                                        // );
                                     }}
                                 />
                             );
@@ -208,8 +338,36 @@ const Canvas: FC = () => {
                                     }}
                                     onChange={(newAttrs: any) => {
                                         const tmp = circle.slice();
+                                        const LOG: any = {
+                                            cmd: 'CHANGE',
+                                            data: newAttrs,
+                                            type: 'circle',
+                                            index: i
+                                        };
+                                        const logTmp = log.concat(LOG);
+                                        setLog(logTmp);
                                         tmp[i] = newAttrs;
                                         setCircle(tmp);
+                                        console.log(
+                                            stageEl.current.getStage().toJSON()
+                                        );
+                                    }}
+                                />
+                            );
+                        })}
+                        {images.map((image: any, i: number) => {
+                            return (
+                                <Img
+                                    key={i}
+                                    imageUrl={image.content}
+                                    shapeProps={images}
+                                    isSelected={image.id === selectedId}
+                                    onSelect={() => {
+                                        selectShape(image.id);
+                                    }}
+                                    onChange={(newAttrs: any) => {
+                                        const imgs = images.slice();
+                                        imgs[i] = newAttrs;
                                     }}
                                 />
                             );
@@ -219,6 +377,14 @@ const Canvas: FC = () => {
             </FullScreenWrapper>
             <button onClick={addRect}>addRect</button>
             <button onClick={addCircle}>addCircle</button>
+            <input
+                // style={{ display: 'none' }}
+                type="file"
+                ref={fileUploadEl}
+                onChange={fileChange}
+            />
+            <button onClick={redo}>redo</button>
+            <button onClick={undo}>undo</button>
         </>
     );
 };
