@@ -1,26 +1,8 @@
-import React, { ChangeEvent } from 'react';
-import {
-    AppBar,
-    Tabs,
-    Tab,
-    Typography,
-    Box,
-    makeStyles
-} from '@material-ui/core';
+import React, { ChangeEvent, useState } from 'react';
+import { AppBar, Tabs, Tab, makeStyles } from '@material-ui/core';
 
-import { Group } from './components/Group';
-import { Channell } from './components/Channell';
-import { Comment } from './components/Comment';
-
-function TabPanel(props: any) {
-    const { children, value, index } = props;
-
-    return (
-        <Typography component="div" role="tabpanel" hidden={value !== index}>
-            <Box>{children}</Box>
-        </Typography>
-    );
-}
+import { TimeLineItem } from './components/TimeLineItem';
+import { TabPanel } from './components/TabPanel';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -30,7 +12,10 @@ const useStyles = makeStyles(theme => ({
 
 export const TimeLine = () => {
     const classes = useStyles();
-    const [value, setValue] = React.useState(0);
+    const [value, setValue] = useState(0);
+    const [groupList, setGroupList] = useState();
+    const [channellList, setChannellList] = useState();
+    const [commentList, setCommentList] = useState();
 
     return (
         <div className={classes.root}>
@@ -47,13 +32,13 @@ export const TimeLine = () => {
                 </Tabs>
             </AppBar>
             <TabPanel value={value} index={0}>
-                <Group />
+                Group
             </TabPanel>
             <TabPanel value={value} index={1}>
-                <Channell />
+                Channell
             </TabPanel>
             <TabPanel value={value} index={2}>
-                <Comment />
+                Comment
             </TabPanel>
         </div>
     );
