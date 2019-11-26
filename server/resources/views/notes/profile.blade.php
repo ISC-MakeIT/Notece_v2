@@ -19,5 +19,5 @@
     </div>
         </div>
     </div>
-    <a href="{{ url('notice/confirmation_profile') }}" class="btn btn-primary">退会する</a>
+    <a href="{{ url('notece/confirmation_profile') }}" class="btn btn-primary">退会する</a>
 @endsection
