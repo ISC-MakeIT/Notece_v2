@@ -375,5 +375,3 @@ const FullScreenWrapper = styled.div`
     top: 100px;
     right: 0;
 `;
-
-export default Canvas;
