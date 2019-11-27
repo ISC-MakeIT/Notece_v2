@@ -345,12 +345,6 @@ export const Canvas: FC = () => {
                     </Layer>
                 </Stage>
             </FullScreenWrapper>
-            <button onClick={addRect}>addRect</button>
-            <button onClick={addCircle}>addCircle</button>
-            <input type="file" ref={fileUploadEl} onChange={fileChange} />
-            <button onClick={redo}>redo</button>
-            <button onClick={undo}>undo</button>
-            {/*ここまで消して*/}
             <MenuButton
                 drawFunc={drawLine}
                 rectFunc={addRect}
