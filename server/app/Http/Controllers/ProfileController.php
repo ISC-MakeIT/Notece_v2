@@ -20,7 +20,7 @@ class ProfileController extends Controller
         $query = Profile::query();
         $query->where('user_id', session('userid'));
         $profile = $query->first();
-        return view('notes.profile', ['profile' => $profile]);
+        return ['profile' => $profile];
     }
 
     public function edit(Request $request)
@@ -28,7 +28,7 @@ class ProfileController extends Controller
         $query = Profile::query();
         $query->where('user_id', session('userid'));
         $profile = $query->first();
-        return view('notes.edit_profile', ['profile' => $profile]);
+        return  ['profile' => $profile];
     }
 
     public function update(Request $request)
@@ -55,7 +55,7 @@ class ProfileController extends Controller
         $profile = Profile::findOrFail($userid);
         $profile->fill($params)->save();
 
-        return view('notes.profile', ['profile' => $profile]);
+        return ['profile' => $profile];
     }
 
     public function destroy(Request $request) {
@@ -66,6 +66,5 @@ class ProfileController extends Controller
         $profile->delete();
         $user = User::find($param);
         $user->delete();
-        return redirect()->route('top');
     }
 }

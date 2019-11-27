@@ -19,6 +19,6 @@ class CommentsController extends Controller
         $note = Note::findOrFail($params['note_id']);
         $note->comments()->create($params);
 
-        return redirect()->route('notece.note', ['note' => $note]);
+        return ['note' => $note];
     }
 }
