@@ -47,16 +47,29 @@ export const MenuButton: FC<Props> = props => {
                 onChange={handleFormat}
                 arial-label="text formatting"
             >
-                <ToggleButton value="bold" aria-label="bold">
+                <ToggleButton value="bold" aria-label="bold" onClick={drawFunc}>
                     <Create />
                 </ToggleButton>
-                <ToggleButton value="italic" aria-label="italic">
+                <ToggleButton
+                    value="italic"
+                    aria-label="italic"
+                    onClick={circleFunc}
+                >
                     <FiberManualRecordOutlined />
                 </ToggleButton>
-                <ToggleButton value="underlined" aria-label="underlined">
+                <ToggleButton
+                    value="underlined"
+                    aria-label="underlined"
+                    // onClick={circleFunc}
+                >
                     <ChangeHistoryOutlined />
                 </ToggleButton>
-                <ToggleButton value="color" aria-label="color" disabled>
+                <ToggleButton
+                    value="color"
+                    aria-label="color"
+                    disabled
+                    onClick={rectFunc}
+                >
                     <StopOutlined />
                 </ToggleButton>
                 <Divider orientation="vertical" className={classes.divider} />
@@ -72,11 +85,11 @@ export const MenuButton: FC<Props> = props => {
 };
 
 type Props = {
-    drawFunc: Function;
-    rectFunc: Function;
-    circleFunc: Function;
-    textFunc: Function;
-    loadFileFunc: Function;
+    drawFunc: any;
+    rectFunc: any;
+    circleFunc: any;
+    textFunc: any;
+    loadFileFunc: any;
 };
 
 const useStyles = makeStyles(theme => ({

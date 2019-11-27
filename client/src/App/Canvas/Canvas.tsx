@@ -345,22 +345,19 @@ export const Canvas: FC = () => {
                     </Layer>
                 </Stage>
             </FullScreenWrapper>
-            {/*ここから*/}
             <button onClick={addRect}>addRect</button>
             <button onClick={addCircle}>addCircle</button>
             <input type="file" ref={fileUploadEl} onChange={fileChange} />
             <button onClick={redo}>redo</button>
             <button onClick={undo}>undo</button>
             {/*ここまで消して*/}
-            {/* <MenuButton
-                drawFunc={}
-                rectFunc={}
-                circleFunc={}
-                textFunc={}
-                loadFileFunc={}
-            /> 
-            {}に関数書いてコメントアウト外して
-            */}
+            <MenuButton
+                drawFunc={drawLine}
+                rectFunc={addRect}
+                circleFunc={addCircle}
+                textFunc={addTextArea}
+                loadFileFunc={drawImage}
+            />
         </div>
     );
 };
