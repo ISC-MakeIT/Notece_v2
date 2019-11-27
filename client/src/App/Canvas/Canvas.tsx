@@ -11,13 +11,13 @@ import addText from './components/text';
 
 const uuidv1 = require('uuid/v1');
 
-const Canvas: FC = () => {
+export const Canvas: FC = () => {
     // [図形のデータ（大きさや位置）、更新用]
     const initArray: Array<any> = [];
     const [rect, setRect] = useState(initArray);
     const [circle, setCircle] = useState(initArray);
     const [images, setImages] = useState(initArray);
-    const [, updateState] = React.useState();
+    const [, updateState] = useState();
     const [log, setLog] = useState(initArray);
     const [logCount, setLogCount] = useState(-1);
     const [open, setOpen] = React.useState(false);
@@ -254,7 +254,7 @@ const Canvas: FC = () => {
     };
 
     return (
-        <>
+        <div>
             <FullScreenWrapper>
                 <Stage
                     width={window.innerWidth}
@@ -346,15 +346,10 @@ const Canvas: FC = () => {
             </FullScreenWrapper>
             <button onClick={addRect}>addRect</button>
             <button onClick={addCircle}>addCircle</button>
-            <input
-                // style={{ display: 'none' }}
-                type="file"
-                ref={fileUploadEl}
-                onChange={fileChange}
-            />
+            <input type="file" ref={fileUploadEl} onChange={fileChange} />
             <button onClick={redo}>redo</button>
             <button onClick={undo}>undo</button>
-        </>
+        </div>
     );
 };
 
@@ -363,5 +358,3 @@ const FullScreenWrapper = styled.div`
     top: 100px;
     right: 0;
 `;
-
-export default Canvas;
