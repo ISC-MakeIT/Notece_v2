@@ -82,6 +82,7 @@ const Canvas: FC = () => {
             layer.batchDraw();
             stage.off();
             setRect(tmp);
+            setLogCount(-1);
             const START_LOG: any = {
                 cmd: 'CREATE',
                 data: null,
@@ -145,6 +146,8 @@ const Canvas: FC = () => {
             layer.batchDraw();
             stage.off();
             setCircle(tmp);
+            // 今まであった分のlogを削除
+            setLogCount(-1);
             const START_LOG: any = {
                 cmd: 'CREATE',
                 data: null,
