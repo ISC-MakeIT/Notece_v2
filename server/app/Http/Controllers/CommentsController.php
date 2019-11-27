@@ -13,12 +13,12 @@ class CommentsController extends Controller
             'note_id' => 'required|exists:notes,note_id',
             'comment_body' => 'required|max:2000',
         ]);
-        $params = array_merge($params,['user_id' => session('userid')]); 
-        
-        
+        $params = array_merge($params, ['user_id' => session('userid')]);
+
+
         $note = Note::findOrFail($params['note_id']);
         $note->comments()->create($params);
 
-        return redirect()->route('notes.show', ['note' => $note]);
+        return redirect()->route('notece.note', ['note' => $note]);
     }
 }

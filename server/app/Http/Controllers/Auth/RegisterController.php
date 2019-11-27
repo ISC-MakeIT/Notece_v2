@@ -30,7 +30,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/notice/main';
+    protected $redirectTo = '/notece/main';
 
     /**
      * Create a new controller instance.
@@ -71,7 +71,7 @@ class RegisterController extends Controller
             'user_id' => $userid,
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
-        ]);  
+        ]);
 
         DB::table('profiles')->insert([
             'user_id' => $userid,
@@ -80,5 +80,4 @@ class RegisterController extends Controller
         session(['userid' => $userid]);
         return $user;
     }
-
 }

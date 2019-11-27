@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { FC } from 'react';
 
-const App: React.FC = () => {
-  return (
-    <header style={{ display: 'flex', justifyContent: 'center', fontSize: 36 }}>
-      <h1>this is base of Notece</h1>
-    </header>
-  );
-}
+import { Main } from './Main/Main';
 
-export default App;
+export const App: FC = () => {
+    return (
+        <div>
+            <Main />
+        </div>
+    );
+};

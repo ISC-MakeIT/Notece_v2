@@ -23,7 +23,7 @@ class ProfileController extends Controller
         return view('notes.profile', ['profile' => $profile]);
     }
 
-    public function edit()
+    public function edit(Request $request)
     {
         $query = Profile::query();
         $query->where('user_id', session('userid'));
@@ -31,23 +31,31 @@ class ProfileController extends Controller
         return view('notes.edit_profile', ['profile' => $profile]);
     }
 
-    public function update($request)
+    public function update(Request $request)
     {
         $params = $request->validate([
-            'name' => 'max:20',
-            'sex' => 'max:3',
-            'age' => 'numeric|max:11',
-            'comment' => 'max:200',
-            'icon' => 'image',
+            'name' => 'max:20|nullable',
+            'sex' => 'max:3|nullable',
+            'age' => 'integer|nullable',
+            'comment' => 'max:200|nullable',
+            'search_histroy' => 'nullable',
+            'icon' => 'image|mimes:jpeg,png|nullable',
+            'birthday' => 'nullable',
         ]);
 
-        $params = array_merge($params,['user_id' => session('userid')]); 
-        var_dump($params);
-        $query = Profile::query();
-        $query->where('user_id', session('userid'));
-        $profile = $query->update($params);
-        return redirect()->route('top');
+        if (isset($params['icon'])) {
+            $icon = $params['icon'];
+            $icon = base64_encode(file_get_contents($icon));
+            $params = array_merge($params, ['icon' => $icon]);
+        }
 
+        $userid = session('userid');
+        $params = array_merge($params, ['user_id' => $userid]);
+
+        $profile = Profile::findOrFail($userid);
+        $profile->fill($params)->save();
+
+        return view('notes.profile', ['profile' => $profile]);
     }
 
     public function destroy(Request $request) {
