@@ -1,9 +1,6 @@
 import React, { FC, useState, useRef, createRef, useEffect } from 'react';
 import Konva from 'konva';
 import { Stage, Layer } from 'react-konva';
-import draggable from 'react-draggable';
-import { Menu } from '@material-ui/icons';
-import { Modal } from '@material-ui/core';
 
 import Img from './components/Image';
 import Circle from './components/Circle';
@@ -11,35 +8,21 @@ import Rect from './components/Rect';
 import addLine from './components/line';
 import styled from 'styled-components';
 import addText from './components/text';
-import Draggable from 'react-draggable';
-import { ImageBackground } from 'react-native';
-import { borderRadius, maxHeight } from '@material-ui/system';
-import zIndex from '@material-ui/core/styles/zIndex';
 
 const uuidv1 = require('uuid/v1');
-// import controlerStage from './MenuButton';
-// import delLine from './components/eraser';
 
 const Canvas: FC = () => {
     // [図形のデータ（大きさや位置）、更新用]
     const initArray: Array<any> = [];
     const [rect, setRect] = useState(initArray);
     const [circle, setCircle] = useState(initArray);
-    const [text, setText] = useState(initArray);
     const [images, setImages] = useState(initArray);
     const [, updateState] = React.useState();
-    const [line, setLine] = useState(initArray);
     const [log, setLog] = useState(initArray);
     const [logCount, setLogCount] = useState(-1);
     const [open, setOpen] = React.useState(false);
 
     // Stage.レイヤーを選択するための値
-    const BtnStage: React.RefObject<any> = createRef();
-    const BtnLayer: React.RefObject<any> = createRef();
-
-    const ConStage: React.RefObject<any> = createRef();
-    const ConLayer: React.RefObject<any> = createRef();
-
     const stageEl: React.RefObject<any> = createRef();
     const layerEl: React.RefObject<any> = createRef();
 
@@ -51,16 +34,7 @@ const Canvas: FC = () => {
 
     // 図形生成用関数（controlerStageの引数）
 
-    const handleOpen = () => {
-        setOpen(true);
-    };
-
-    const handleClose = () => {
-        setOpen(false);
-    };
-
     const addRect = () => {
-        handleClose();
         const stage: any = stageEl.current.getStage();
         const layer: any = layerEl.current;
         stage.off();
@@ -120,7 +94,6 @@ const Canvas: FC = () => {
     };
 
     const addCircle = () => {
-        handleClose();
         const stage = stageEl.current.getStage();
         const layer = layerEl.current;
         stage.off();
@@ -165,7 +138,6 @@ const Canvas: FC = () => {
             layer.batchDraw();
             stage.off();
             setCircle(tmp);
-            // 今まであった分のlogを削除
             setLogCount(-1);
             const START_LOG: any = {
                 cmd: 'CREATE',
@@ -187,13 +159,11 @@ const Canvas: FC = () => {
     };
 
     const addTextArea = () => {
-        handleClose();
         stageEl.current.getStage().off();
         addText(stageEl.current.getStage(), layerEl.current);
     };
 
     const drawImage = () => {
-        handleClose();
         fileUploadEl.current.click();
     };
     const forceUpdate = React.useCallback(() => updateState({}), []);
@@ -220,7 +190,6 @@ const Canvas: FC = () => {
     };
 
     const drawLine = () => {
-        handleClose();
         stageEl.current.getStage().off();
         addLine(stageEl.current.getStage(), layerEl.current);
     };
@@ -286,53 +255,12 @@ const Canvas: FC = () => {
 
     return (
         <>
-            <DragButton>
-                <Draggable
-                    defaultPosition={{ x: 0, y: 0 }}
-                    grid={[5, 5]}
-                    scale={1}
-                    handle=".handle"
-                >
-                    <div className="handle" style={{ zIndex: 1 }}>
-                        <Menu
-                            style={{
-                                width: '50px',
-                                height: '50px',
-                                background: '#ccc',
-                                borderRadius: '5px',
-                                zIndex: 1
-                            }}
-                            onDoubleClick={handleOpen}
-                        />
-                        <Modal
-                            aria-labelledby="simple-modal-title"
-                            aria-describedby="simple-modal-description"
-                            open={open}
-                        >
-                            <div>
-                                <button onClick={addRect}>addRect</button>
-                                <button onClick={addCircle}>addCircle</button>
-                                <input
-                                    // style={{ display: 'none' }}
-                                    type="file"
-                                    ref={fileUploadEl}
-                                    onChange={fileChange}
-                                />
-                                <button onClick={redo}>redo</button>
-                                <button onClick={undo}>undo</button>
-                            </div>
-                        </Modal>
-                    </div>
-                </Draggable>
-            </DragButton>
-            {/* 描写用Stage */}
             <FullScreenWrapper>
                 <Stage
                     width={window.innerWidth}
                     height={window.innerHeight}
                     ref={stageEl}
                     onMouseDown={e => {
-                        // deselect when clicked on empty area
                         const clickedOnEmpty = e.target === e.target.getStage();
                         if (clickedOnEmpty) {
                             selectShape(null);
@@ -364,8 +292,6 @@ const Canvas: FC = () => {
                                         // undo/redo用の変数を更新
                                         tmp[i] = newAttrs;
                                         setRect(tmp);
-                                        // json.push(stageEl.current.getStage().toJSON()
-                                        // );
                                     }}
                                 />
                             );
@@ -418,6 +344,16 @@ const Canvas: FC = () => {
                     </Layer>
                 </Stage>
             </FullScreenWrapper>
+            <button onClick={addRect}>addRect</button>
+            <button onClick={addCircle}>addCircle</button>
+            <input
+                // style={{ display: 'none' }}
+                type="file"
+                ref={fileUploadEl}
+                onChange={fileChange}
+            />
+            <button onClick={redo}>redo</button>
+            <button onClick={undo}>undo</button>
         </>
     );
 };
@@ -426,10 +362,6 @@ const FullScreenWrapper = styled.div`
     position: absolute;
     top: 100px;
     right: 0;
-`;
-
-const DragButton = styled.div`
-    z-index: top;
 `;
 
 export default Canvas;
