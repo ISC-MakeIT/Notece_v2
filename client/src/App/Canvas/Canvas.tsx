@@ -8,6 +8,7 @@ import Rect from './components/Rect';
 import addLine from './components/line';
 import styled from 'styled-components';
 import addText from './components/text';
+import { MenuButton } from './MenuButton/MenuButton';
 
 const uuidv1 = require('uuid/v1');
 
@@ -344,11 +345,22 @@ export const Canvas: FC = () => {
                     </Layer>
                 </Stage>
             </FullScreenWrapper>
+            {/*ここから*/}
             <button onClick={addRect}>addRect</button>
             <button onClick={addCircle}>addCircle</button>
             <input type="file" ref={fileUploadEl} onChange={fileChange} />
             <button onClick={redo}>redo</button>
             <button onClick={undo}>undo</button>
+            {/*ここまで消して*/}
+            {/* <MenuButton
+                drawFunc={}
+                rectFunc={}
+                circleFunc={}
+                textFunc={}
+                loadFileFunc={}
+            /> 
+            {}に関数書いてコメントアウト外して
+            */}
         </div>
     );
 };

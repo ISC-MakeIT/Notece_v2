@@ -24,7 +24,8 @@ const StyledToggleButtonGroup = withStyles(theme => ({
     }
 }))(ToggleButtonGroup);
 
-export const MenuButton: FC = props => {
+export const MenuButton: FC<Props> = props => {
+    const { drawFunc, rectFunc, circleFunc, textFunc, loadFileFunc } = props;
     const [alignment, setAlignment] = React.useState('left');
     const [formats, setFormats] = React.useState(() => ['italic']);
 
