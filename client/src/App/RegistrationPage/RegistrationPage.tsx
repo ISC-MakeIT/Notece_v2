@@ -5,17 +5,21 @@ import SignUp from './contents/SignUp';
 import SignUpEmail from './contents/SignUpEmail';
 import SignUpPass from './contents/SignUpPass';
 
-const RegistrationPage: FC = () => {
+export const RegistrationPage: FC = () => {
     return (
         <BrowserRouter>
             <Switch>
-                <Route path="/sign_up" component={SignUp} />
-                <Route path="/sign_up_email" component={SignUpEmail} />
-                <Route path="/sign_up_pass" component={SignUpPass} />
-                <Route path="/sign_in" />
+                <Route path="/registration/sign_up" component={SignUp} />
+                <Route
+                    path="/registration/sign_up_email"
+                    component={SignUpEmail}
+                />
+                <Route
+                    path="/registration/sign_up_pass"
+                    component={SignUpPass}
+                />
+                <Route path="/registration/sign_in" />
             </Switch>
         </BrowserRouter>
     );
 };
-
-export default RegistrationPage;
