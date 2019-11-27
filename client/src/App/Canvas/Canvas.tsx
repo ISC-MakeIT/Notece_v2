@@ -10,28 +10,19 @@ import styled from 'styled-components';
 import addText from './components/text';
 
 const uuidv1 = require('uuid/v1');
-// import controlerStage from './MenuButton';
-// import delLine from './components/eraser';
 
 const Canvas: FC = () => {
     // [図形のデータ（大きさや位置）、更新用]
     const initArray: Array<any> = [];
     const [rect, setRect] = useState(initArray);
     const [circle, setCircle] = useState(initArray);
-    const [text, setText] = useState(initArray);
     const [images, setImages] = useState(initArray);
     const [, updateState] = React.useState();
-    const [line, setLine] = useState(initArray);
     const [log, setLog] = useState(initArray);
     const [logCount, setLogCount] = useState(-1);
+    const [open, setOpen] = React.useState(false);
 
     // Stage.レイヤーを選択するための値
-    const BtnStage: React.RefObject<any> = createRef();
-    const BtnLayer: React.RefObject<any> = createRef();
-
-    const ConStage: React.RefObject<any> = createRef();
-    const ConLayer: React.RefObject<any> = createRef();
-
     const stageEl: React.RefObject<any> = createRef();
     const layerEl: React.RefObject<any> = createRef();
 
@@ -42,6 +33,7 @@ const Canvas: FC = () => {
     const [selectedId, selectShape] = React.useState(initSelect);
 
     // 図形生成用関数（controlerStageの引数）
+
     const addRect = () => {
         const stage: any = stageEl.current.getStage();
         const layer: any = layerEl.current;
@@ -82,6 +74,7 @@ const Canvas: FC = () => {
             layer.batchDraw();
             stage.off();
             setRect(tmp);
+            setLogCount(-1);
             const START_LOG: any = {
                 cmd: 'CREATE',
                 data: null,
@@ -145,6 +138,7 @@ const Canvas: FC = () => {
             layer.batchDraw();
             stage.off();
             setCircle(tmp);
+            setLogCount(-1);
             const START_LOG: any = {
                 cmd: 'CREATE',
                 data: null,
@@ -261,35 +255,12 @@ const Canvas: FC = () => {
 
     return (
         <>
-            {/* ボタン専用Stage */}
-
-            {/* <FullScreenWrapper>
-                <Stage
-                    width={window.innerWidth}
-                    height={window.innerHeight}
-                    ref={BtnStage}
-                >
-                    <Layer ref={BtnLayer}> */}
-            {/* <Controler
-                        // addRect,addCircleに関しては大きさ指定できるようにする
-                        addRect={addRect}
-                        addCircle={addCircle}
-                        addLine={addLine}
-                        addText={addText}
-                        addImg={addImage}
-                    /> */}
-            {/* </Layer>
-                </Stage>
-            </FullScreenWrapper> */}
-
-            {/* 描写用Stage */}
             <FullScreenWrapper>
                 <Stage
                     width={window.innerWidth}
                     height={window.innerHeight}
                     ref={stageEl}
                     onMouseDown={e => {
-                        // deselect when clicked on empty area
                         const clickedOnEmpty = e.target === e.target.getStage();
                         if (clickedOnEmpty) {
                             selectShape(null);
@@ -321,8 +292,6 @@ const Canvas: FC = () => {
                                         // undo/redo用の変数を更新
                                         tmp[i] = newAttrs;
                                         setRect(tmp);
-                                        // json.push(stageEl.current.getStage().toJSON()
-                                        // );
                                     }}
                                 />
                             );
