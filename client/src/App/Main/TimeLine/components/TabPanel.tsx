@@ -2,7 +2,7 @@ import React, { FC, ReactNode } from 'react';
 
 import { Typography, Box, makeStyles } from '@material-ui/core';
 
-export const TabPanel: FC<TabPanelProps> = props => {
+export const TabPanel: FC<Props> = props => {
     const classes = useStyles();
     const { children, value, index } = props;
 
@@ -21,7 +21,7 @@ const useStyles = makeStyles({
     }
 });
 
-type TabPanelProps = {
+type Props = {
     children: ReactNode;
     value: number;
     index: number;
