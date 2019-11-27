@@ -12,26 +12,6 @@ import {
 import { MoreHoriz, AcUnit } from '@material-ui/icons';
 import { red } from '@material-ui/core/colors';
 
-const useStyles = makeStyles(theme => ({
-    card: {
-        maxWidth: 345,
-        minWidth: 345,
-        maxHeight: 345,
-        minHeight: 345
-    },
-    media: {
-        paddingTop: '56.25%' // 16:9
-    },
-    avatar: {
-        backgroundColor: red[500]
-    }
-}));
-
-type Props = {
-    title: string;
-    posted_at: string;
-};
-
 export const TimeLineItem: FC<Props> = props => {
     const { title, posted_at } = props;
     const classes = useStyles();
@@ -65,4 +45,24 @@ export const TimeLineItem: FC<Props> = props => {
             </CardContent>
         </Card>
     );
+};
+
+const useStyles = makeStyles(theme => ({
+    card: {
+        maxWidth: 345,
+        minWidth: 345,
+        maxHeight: 345,
+        minHeight: 345
+    },
+    media: {
+        paddingTop: '56.25%' // 16:9
+    },
+    avatar: {
+        backgroundColor: red[500]
+    }
+}));
+
+type Props = {
+    title: string;
+    posted_at: string;
 };
