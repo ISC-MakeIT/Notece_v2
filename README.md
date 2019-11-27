@@ -1,21 +1,18 @@
 # manual
 ## client
 - ``cd client``
-- ``yarn install`` >> yarn.lockを参照し、依存しているpackageのinstall
-- ``yarn start``
-※yarn入れてね　npmは使わないように。
+- ``make`` 幸せになるコマンド
+※ makeコマンド使えない場合は調べて入れてね
 ## server
+- ``sh scripts/create-env.sh``
 - ``cd server``
-- ``composer install`` >> vendorのinstall
-- ``php artisan key:generate``
-- ``php artisan serve`` >> サーバーの起動
-※php > composer > laravelの順にinstallしてね
+- ``make``
 ## mysql/docker
 - ``docker-compose -v`` dockerの存在を確認する
 - ``docker-compose up -d`` docker起動
 - ``docker-compose ps``&&``docker ps`` docker起動確認
-- ``sh scripts/mysql.sh`` 何も考えるな bashが開く
-- ``mysql -u root -p`` パスワードを要求されるのでパスワードを入れると幸せになる
+- ``sh scripts/mysql.sh``
+- ``mysql -u root -p``
 ***
 # Git
 ## master

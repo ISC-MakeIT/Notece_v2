@@ -14,8 +14,8 @@ class NotesController extends Controller
 
     public function index()
     {
-        $notes = Note::orderBy('created_at', 'desc')->paginate(10);
-        return view('notes.index', ['notes' => $notes]);
+        $notes = Note::orderBy('created_at', 'desc');
+        return['notes' => $notes];
     }
 
     public function search(Request $request)
@@ -25,7 +25,7 @@ class NotesController extends Controller
         $query->where('note_title', 'LIKE', "%$searchKey%");
         $query->orderBy('created_at', 'desc');
         $notes = $query->get();
-        return view('notes.index', ['notes' => $notes]);
+        return ['notes' => $notes];
     }
 
     public function myindex()
@@ -34,12 +34,7 @@ class NotesController extends Controller
         $query->where('user_id', session('userid'));
         $query->orderBy('created_at', 'desc');
         $notes = $query->get();
-        return view('notes.mynote', ['notes' => $notes]);
-    }
-
-    public function create()
-    {
-        return view('notes.write');
+        return ['notes' => $notes];
     }
 
     public function store(Request $request)
@@ -50,26 +45,20 @@ class NotesController extends Controller
         ]);
         $params = array_merge($params, ['user_id' => session('userid')]);
         Note::create($params);
-
-        return redirect()->route('top');
     }
 
     public function show($note_id)
     {
         $note = Note::findOrFail($note_id);
 
-        return view('notes.show', [
-            'note' => $note,
-        ]);
+            ['note' => $note];
     }
 
     public function edit($note_id)
     {
         $note = Note::findOrFail($note_id);
 
-        return view('notes.edit', [
-            'note' => $note,
-        ]);
+        ['note' => $note];
     }
 
     public function update($note_id, Request $request)
@@ -82,7 +71,7 @@ class NotesController extends Controller
         $note = Note::findOrFail($note_id);
         $note->fill($params)->save();
 
-        return redirect()->route('notece.note', ['note' => $note]);
+        return ['note' => $note];
     }
 
     public function destroy($note_id)
@@ -93,6 +82,5 @@ class NotesController extends Controller
             $note->comments()->delete();
             $note->delete();
         });
-        return redirect()->route('top');
     }
 }
