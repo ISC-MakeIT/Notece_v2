@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { FC, useState } from 'react';
 import { makeStyles } from '@material-ui/core';
 
 import { TimeLineBar } from './components/TimeLineBar';
@@ -6,10 +6,10 @@ import { TabPanel } from './components/TabPanel';
 import { TimeLineItem } from './components/TimeLineItem';
 import { getJSON, postJSON } from '../../shared/api_client';
 
-export const TimeLine = () => {
+export const TimeLine: FC = () => {
     const classes = useStyles();
     const [value, setValue] = useState(0);
-    const [viewNumber, setViewNumber] = useState(8);
+    const [viewNumber, setViewNumber] = useState(8); // 表示件数変更用
     const [groupsList, setGroupsList] = useState([
         'JS',
         'Python',
